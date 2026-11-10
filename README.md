@@ -10,6 +10,7 @@
 
 - そのまま `index.html` をブラウザで開けば動く（フォントだけネット接続時にGoogle Fontsから取得、無くても代替フォントで表示）
 - PWAとして使いたい場合は、任意の静的サーバーで配信して一度開くとオフラインでも動く（例：`python3 -m http.server`）
+- デプロイ先に GitHub Pages は使わない（Freeプランでは Private リポジトリで使えないため）。当日はチェックアウトまたは zip でローカルに持ち込み、localhost で動かす（`docs/decisions.md` 参照）
 
 ## 当日設定
 
