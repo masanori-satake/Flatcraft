@@ -1,0 +1,8 @@
+# CodeRabbit is intentionally OFF for this repository.
+# 職業講話用の個人プロジェクトとして、レビュー待ちで止めずにサクサク作るための設定。
+language: "ja-JP"
+reviews:
+  auto_review:
+    enabled: false
+chat:
+  auto_reply: false
