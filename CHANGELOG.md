@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.1.2] - 2026-11-10
+
+### English
+- Added a real rendered screenshot (docs/images/board-sample.png) to the README.
+- Fixed the settings panel readouts showing code-formatted strings; they now show plain numbers while the code view keeps its formatted form.
+- Regenerated the Mii SVG with neutral-gray background detection so skin tones survive and stray outline pixels are removed.
+
+### 日本語
+- READMEに実際の表示サンプル（docs/images/board-sample.png）を追加。
+- せっていパネルの値表示にコード用の書式文字列が出ていた不具合を修正。パネルは素の数字、コード表示は書式付きに分離。
+- MiiのSVGを、無彩色の明るいグレーだけを背景として抜く方式で作り直し、肌色が欠けず輪郭のノイズも消えた。
+
 ## [0.1.1] - 2026-11-10
 
 ### English

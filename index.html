@@ -229,23 +229,23 @@ function frame(){
 requestAnimationFrame(frame);
 
 /* ===== パネルとコード表示の連動 ===== */
-function bind(key, inputId, outId, codeId, fmt){
+function bind(key, inputId, outId, codeId, fmtOut, fmtCode){
   const input = document.getElementById(inputId);
   const out = document.getElementById(outId);
   const code = document.getElementById(codeId);
   const apply = () => {
     P[key] = parseFloat(input.value);
-    out.textContent = fmt(P[key]);
-    code.textContent = fmt(P[key], true);
+    out.textContent = fmtOut(P[key]);
+    code.textContent = fmtCode(P[key]);
     code.classList.remove("hl"); void code.offsetWidth; code.classList.add("hl");
   };
   input.addEventListener("input", apply); apply();
   return input;
 }
 const inputs = {
-  gravity: bind("gravity", "i-gravity", "o-gravity", "c-gravity", v => "じゅうりょく " + v.toFixed(1)),
-  jump:    bind("jump",    "i-jump",    "o-jump",    "c-jump",    v => "-" + Math.round(v)),
-  speed:   bind("speed",   "i-speed",   "o-speed",   "c-speed",   v => String(Math.round(v)))
+  gravity: bind("gravity", "i-gravity", "o-gravity", "c-gravity", v => v.toFixed(1), v => "じゅうりょく " + v.toFixed(1)),
+  jump:    bind("jump",    "i-jump",    "o-jump",    "c-jump",    v => String(Math.round(v)), v => "-" + Math.round(v)),
+  speed:   bind("speed",   "i-speed",   "o-speed",   "c-speed",   v => String(Math.round(v)), v => String(Math.round(v)))
 };
 const PRESETS = {
   normal: { gravity: 0.6, jump: 12, speed: 3 },
