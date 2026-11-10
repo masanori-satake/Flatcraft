@@ -1,5 +1,15 @@
 # Changelog
 
+## [0.1.1] - 2026-11-10
+
+### English
+- One-click launch for the day of the talk: `start.bat` (Windows) starts a local server built only on PowerShell's HttpListener (no installs) and opens the app in the browser; `start.sh` covers macOS/Linux via python3.
+- Documented the deployment decision: no GitHub Pages (unavailable for private repositories on the Free plan); run locally on localhost instead.
+
+### 日本語
+- 当日用のワンクリック起動を追加：`start.bat`（Windows）をダブルクリックすると、PowerShell標準のHttpListenerだけを使ったローカルサーバー（追加インストール不要）が起動し、ブラウザでアプリが開く。macOS/Linux向けに `start.sh`（python3）も用意。
+- デプロイ方針を明記：GitHub Pagesは使わない（FreeプランではPrivateリポジトリで使えないため）。ローカルに持ち込んでlocalhostで動かす。
+
 ## [0.1.0] - 2026-11-10
 
 ### English
