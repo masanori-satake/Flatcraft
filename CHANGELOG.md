@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.4.1] - 2026-11-23
+
+### English
+- Sparkle bursts are now unmistakably sparkles: larger ✦ glyphs (18-31px) in brighter gold, bursting radially in all directions with rotation, instead of a small tight cluster that could be mistaken for dust.
+
+### 日本語
+- キラキラを見直し：小さい✦が固まって土煙のように見えたため、大きめ（18〜31px）で明るい金色の✦が全方向に放射状に飛び、回転しながら消える表現に変更。
+
 ## [0.4.0] - 2026-11-23
 
 ### English

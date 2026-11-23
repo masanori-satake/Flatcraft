@@ -100,8 +100,8 @@
   @keyframes starBob{from{transform:translateY(-4px);} to{transform:translateY(5px);}}
   /* パーティクル（土煙・キラキラ） */
   .particle{position:absolute; z-index:4; pointer-events:none;}
-  .p-dust{border-radius:50%; background:rgba(214,198,164,.85);}
-  .p-spark{color:#ffd83d; text-shadow:0 0 8px rgba(255,216,61,.9); line-height:1;}
+  .p-dust{border-radius:50%; background:rgba(203,190,158,.55); filter:blur(1.5px);}
+  .p-spark{color:#ffe95e; text-shadow:0 0 10px rgba(255,216,61,1), 0 0 20px rgba(255,216,61,.6); line-height:1;}
 
   /* 会話窓 */
   #dialog{
@@ -379,27 +379,47 @@ function resetStars(){
 
 /* パーティクル（着地の土煙・ジャンプと星のキラキラ） */
 function spawnParticles(cx, cy, kind){
-  const n = kind === "dust" ? 7 : 6;
+  if (kind === "spark"){
+    const flash = document.createElement("div");
+    flash.className = "particle p-spark";
+    flash.textContent = "✦";
+    flash.style.fontSize = "52px";
+    flash.style.left = cx + "px";
+    flash.style.bottom = (GROUND_H + cy) + "px";
+    world.appendChild(flash);
+    const fa = flash.animate([
+      { transform: "translate(-50%, 50%) scale(.3) rotate(0deg)", opacity: 1 },
+      { transform: "translate(-50%, 50%) scale(1.5) rotate(90deg)", opacity: 0 }
+    ], { duration: 340, easing: "ease-out" });
+    fa.onfinish = () => flash.remove();
+  }
+  const n = kind === "dust" ? 7 : 9;
   for (let i = 0; i < n; i++){
     const el = document.createElement("div");
-    const dx = (Math.random() * 2 - 1) * (kind === "dust" ? 46 : 30);
-    const dy = kind === "dust" ? Math.random() * 14 + 2 : Math.random() * 34 + 10;
+    let dx, dy;
     if (kind === "dust"){
+      dx = (Math.random() * 2 - 1) * 50;      // 足元で左右に広がる
+      dy = -(Math.random() * 14 + 2);
       el.className = "particle p-dust";
-      const sz = 6 + Math.random() * 8;
+      const sz = 8 + Math.random() * 9;
       el.style.width = sz + "px"; el.style.height = sz + "px";
     } else {
+      const ang = (Math.PI * 2 * i) / n + Math.random() * 0.5;   // 全方向に放射
+      const dist = 28 + Math.random() * 32;
+      dx = Math.cos(ang) * dist;
+      dy = Math.sin(ang) * dist;
       el.className = "particle p-spark";
       el.textContent = "✦";
-      el.style.fontSize = (13 + Math.random() * 10) + "px";
+      el.style.fontSize = (18 + Math.random() * 13) + "px";
     }
     el.style.left = cx + "px";
     el.style.bottom = (GROUND_H + cy) + "px";
     world.appendChild(el);
+    const endTf = "translate(calc(-50% + " + dx + "px), " + dy + "px)" + (kind === "spark" ? " rotate(130deg) scale(.25)" : " scale(2.3)");
     const anim = el.animate([
-      { transform: "translate(-50%, 0)", opacity: 1 },
-      { transform: "translate(calc(-50% + " + dx + "px), " + (-dy) + "px)", opacity: 0 }
-    ], { duration: 480 + Math.random() * 220, easing: "ease-out" });
+      { transform: "translate(-50%, 0) scale(1)", opacity: 1 },
+      { transform: endTf, opacity: 0 }
+    ], { duration: kind === "spark" ? 560 : 780 + Math.random() * 200, easing: "ease-out" });
     anim.onfinish = () => el.remove();
   }
 }
