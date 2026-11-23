@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.2.4] - 2026-11-23
+
+### English
+- Presets now focus all three parameters at once: the highlight is applied per gesture (batched), so pressing Moon / Super Jump / Heavy lights up all three numbers and their explanation cards together, instead of only the last one changed.
+
+### 日本語
+- プリセットを押したとき、3つのパラメータ全部が同時にフォーカスされるようにした。ハイライトを「1回の操作」単位でまとめて適用する方式に変更（従来は最後に変わった1つだけが光っていた）。
+
 ## [0.2.3] - 2026-11-23
 
 ### English

@@ -384,6 +384,30 @@ addEventListener("keydown", e => {
 addEventListener("keyup", e => { keys[e.code] = false; });
 
 /* ===== パネルとコード表示の連動 ===== */
+/* ハイライトは「同じ操作で変わったもの」をまとめて扱う：
+   スライダー1つならその1つ、プリセットなら3つ全部が同時に光る。 */
+let pendingFlash = new Set();
+let flashScheduled = false;
+function requestFlash(code, note){
+  pendingFlash.add(code); pendingFlash.add(note);
+  if (flashScheduled) return;
+  flashScheduled = true;
+  requestAnimationFrame(() => {
+    document.querySelectorAll(".hl").forEach(el => {
+      if (!pendingFlash.has(el)) el.classList.remove("hl", "pulse");
+    });
+    pendingFlash.forEach(el => {
+      el.classList.add("hl");
+      if (el.classList.contains("num")){
+        el.classList.remove("pulse");
+        void el.offsetWidth; /* アニメーションを最初から再生させる */
+        el.classList.add("pulse");
+      }
+    });
+    pendingFlash.clear();
+    flashScheduled = false;
+  });
+}
 function bind(key, inputId, outId, codeId, noteId, fmt){
   const input = document.getElementById(inputId);
   const out = document.getElementById(outId);
@@ -393,12 +417,7 @@ function bind(key, inputId, outId, codeId, noteId, fmt){
     P[key] = parseFloat(input.value);
     out.textContent = fmt(P[key]);
     code.textContent = fmt(P[key]);
-    if (flash){
-      document.querySelectorAll(".hl").forEach(el => el.classList.remove("hl", "pulse"));
-      code.classList.add("hl"); note.classList.add("hl");
-      void code.offsetWidth; /* アニメーションを最初から再生させる */
-      code.classList.add("pulse");
-    }
+    if (flash) requestFlash(code, note);
   };
   input.addEventListener("input", () => apply(true));
   apply(false);
