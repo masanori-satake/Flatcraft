@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.2.0] - 2026-11-20
+
+### English
+- Auto demo mode: the character now walks and jumps on its own in a loop (toggleable in the panel, arrow keys switch to manual control), so the speaker can focus on talking; panel and preset changes apply instantly.
+- Scrolling world with game feel: obstacles (blocks, steps, a staircase) that the character jumps over automatically, a chalk-style far background scrolling with parallax, and world looping at the edges.
+- Redesigned code view: a large board-filling view with realistic JavaScript on the left and Japanese explanations on the right; panel values still update and highlight the matching numbers and notes. The narrow Japanese pseudo-code box in the panel is gone.
+
+### 日本語
+- 自動デモモードを追加：キャラが歩く・ジャンプをループで自動再生する（パネルでON/OFF切替、矢印キーで手動に切替）。話者は操作せず喋りに集中でき、パネルやプリセットの変更は即座に反映される。
+- 横スクロールのワールドでゲーム感を追加：障害物（ブロック、段差、階段）を自動で跳び越し、チョーク風の遠景はパララックスで流れ、ワールド端でループする。
+- コード表示を再設計：黒板いっぱいの大きな表示で、左にリアルなJavaScript、右に日本語の解説を並べる。パネルの値とコードの数字・解説の連動ハイライトは維持。パネル内の狭い日本語擬似コードは廃止。
+
 ## [0.1.2] - 2026-11-10
 
 ### English
