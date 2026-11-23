@@ -1,5 +1,15 @@
 # Changelog
 
+## [0.4.0] - 2026-11-23
+
+### English
+- Star items: six stars float above obstacles and in the sky; touching one collects it for +100 points, with a sparkle burst. High stars need a stronger jump, which gives the demo a goal. Stars respawn when the world loops. The program view gained a matching section (⑤ collecting stars).
+- Particles: dust puffs on landing and sparkles on jumping and on collecting a star.
+
+### 日本語
+- 星アイテムを追加：障害物の上や空に6つの星を浮かべ、重なると取れて+100ポイント、キラキラが飛ぶ。高い星はジャンプの強さを大きくしないと届かず、デモに「目標」ができた。星はワールドがループすると復活。プログラム表示にも対応する⑤を追加。
+- パーティクルを追加：着地で土煙、ジャンプと星を取ったときにキラキラ。
+
 ## [0.3.0] - 2026-11-23
 
 ### English

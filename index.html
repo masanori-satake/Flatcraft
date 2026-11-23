@@ -91,6 +91,18 @@
     filter:drop-shadow(4px 6px 0 rgba(0,0,0,.3));}
   .facing-left{transform:scaleX(-1);}
 
+  /* 星アイテム */
+  .star{
+    position:absolute; z-index:2; font-size:34px; line-height:1; color:#ffd83d;
+    text-shadow:0 0 10px rgba(255,216,61,.9), 0 0 22px rgba(255,216,61,.5);
+    animation:starBob 1.6s ease-in-out infinite alternate;
+  }
+  @keyframes starBob{from{transform:translateY(-4px);} to{transform:translateY(5px);}}
+  /* パーティクル（土煙・キラキラ） */
+  .particle{position:absolute; z-index:4; pointer-events:none;}
+  .p-dust{border-radius:50%; background:rgba(214,198,164,.85);}
+  .p-spark{color:#ffd83d; text-shadow:0 0 8px rgba(255,216,61,.9); line-height:1;}
+
   /* 会話窓 */
   #dialog{
     position:absolute; left:18px; right:18px; bottom:16px; min-height:86px; z-index:20;
@@ -221,6 +233,11 @@
 
   <span class="cm">// ④ 歩く：向き × 速さ のぶん進む</span>
   chara.x += direction * physics.walkSpeed;
+
+  <span class="cm">// ⑤ 星：当たったら取る（+100ポイント）</span>
+  <span class="kw">if</span> (hitStar) {
+    score += 100;
+  }
 }</pre>
         <div class="cv-notes">
           <div class="cv-note" id="n-rule"><b>ルールは数字</b><br>いちばん上の3つの数字が、このゲームの「ルール」です。右のパネルで変えているのは、まさにこの数字。数字を変えると、動きがその場で変わります。</div>
@@ -228,6 +245,7 @@
           <div class="cv-note" id="n-floor"><b>② 止まる判定</b><br>地面やブロックの高さまで来たら、そこで止まります。この判定があるから、ブロックの上に乗ったり、段差をおりたりできます。</div>
           <div class="cv-note" id="n-jump"><b>③ ジャンプ</b><br>地面に足がついているときだけ、jumpPower の勢いをもらって跳び上がります。空中では跳べません。</div>
           <div class="cv-note" id="n-speed"><b>④ 歩く</b><br>1フレームに walkSpeed のぶんだけ、向いている方向へ進みます。数字が大きいほど速く歩きます。</div>
+          <div class="cv-note" id="n-star"><b>⑤ 星を取る</b><br>キャラと星が重なったら星を取り、ポイントが100増えます。高いところの星は、ジャンプの強さを大きくしないと届きません。</div>
         </div>
       </div>
       <p class="cv-foot">プログラムは見せるだけ（読み取り専用）。右のパネルで数字を変えると、プログラムの数字もその場で変わって、光ります。</p>
@@ -333,6 +351,59 @@ for (const o of OBSTACLES){
   d.style.height = o.h + "px"; d.style.bottom = GROUND_H + "px";
   world.appendChild(d);
 }
+/* 星アイテム：x=左端, y=地面からの高さ。高い星はジャンプ強化が要る */
+const STARS = [
+  { x: 524,  y: 120 },   // ブロックの上（ふつうに取れる）
+  { x: 910,  y: 130 },   // 低い台の上
+  { x: 1246, y: 190 },   // 2段の塔の上
+  { x: 1610, y: 120 },   // 長い台の上
+  { x: 2060, y: 300 },   // 階段の上から跳ぶと届く
+  { x: 300,  y: 330 }    // 空の星：ジャンプの強さを大きくしないと届かない
+];
+const STAR_SIZE = 36;
+let starCount = 0;
+const starEls = [];
+for (const s of STARS){
+  const d = document.createElement("div");
+  d.className = "star";
+  d.textContent = "★";
+  d.style.left = s.x + "px";
+  d.style.bottom = (GROUND_H + s.y) + "px";
+  world.appendChild(d);
+  starEls.push(d);
+  s.taken = false;
+}
+function resetStars(){
+  STARS.forEach((s, i) => { s.taken = false; starEls[i].style.display = ""; });
+}
+
+/* パーティクル（着地の土煙・ジャンプと星のキラキラ） */
+function spawnParticles(cx, cy, kind){
+  const n = kind === "dust" ? 7 : 6;
+  for (let i = 0; i < n; i++){
+    const el = document.createElement("div");
+    const dx = (Math.random() * 2 - 1) * (kind === "dust" ? 46 : 30);
+    const dy = kind === "dust" ? Math.random() * 14 + 2 : Math.random() * 34 + 10;
+    if (kind === "dust"){
+      el.className = "particle p-dust";
+      const sz = 6 + Math.random() * 8;
+      el.style.width = sz + "px"; el.style.height = sz + "px";
+    } else {
+      el.className = "particle p-spark";
+      el.textContent = "✦";
+      el.style.fontSize = (13 + Math.random() * 10) + "px";
+    }
+    el.style.left = cx + "px";
+    el.style.bottom = (GROUND_H + cy) + "px";
+    world.appendChild(el);
+    const anim = el.animate([
+      { transform: "translate(-50%, 0)", opacity: 1 },
+      { transform: "translate(calc(-50% + " + dx + "px), " + (-dy) + "px)", opacity: 0 }
+    ], { duration: 480 + Math.random() * 220, easing: "ease-out" });
+    anim.onfinish = () => el.remove();
+  }
+}
+
 /* キャラ中心の真下にある「床」の高さ（障害物の上面 or 地面0） */
 function floorAt(x){
   const cx = x + CHARA_W / 2;
@@ -362,23 +433,35 @@ function tryMove(dx){
 function frame(){
   if (demo){
     if (!tryMove(dir * P.speed)){
-      if (grounded) vy = P.jump;             // 障害物の前で自動ジャンプ
+      if (grounded){ vy = P.jump; spawnParticles(x + CHARA_W / 2, y, "spark"); }  // 障害物の前で自動ジャンプ
       if (++stuck > 55){ dir *= -1; stuck = 0; } // 越えられない障害物では引き返す
     } else stuck = 0;
     chara.classList.toggle("facing-left", dir < 0);
-    if (dir > 0 && x >= WORLD_W - CHARA_W - 4) x = 0;                    // 端まで行ったらループ
-    if (dir < 0 && x <= 4) x = WORLD_W - CHARA_W - 4;
+    if (dir > 0 && x >= WORLD_W - CHARA_W - 4){ x = 0; resetStars(); }   // 端まで行ったらループ（星も復活）
+    if (dir < 0 && x <= 4){ x = WORLD_W - CHARA_W - 4; resetStars(); }
   } else {
     if (keys["ArrowLeft"]  || keys["KeyA"]){ if (tryMove(-P.speed)) chara.classList.add("facing-left"); }
     if (keys["ArrowRight"] || keys["KeyD"]){ if (tryMove( P.speed)) chara.classList.remove("facing-left"); }
   }
+  const prevVy = vy, wasGrounded = grounded;
   vy -= P.gravity; y += vy;
   const f = floorAt(x);
   if (y <= f){ y = f; vy = 0; grounded = true; } else grounded = false;
+  if (!wasGrounded && grounded && prevVy <= -6) spawnParticles(x + CHARA_W / 2, y, "dust");  // 着地の土煙
+  /* 星の当たり判定：キャラの箱と星が重なったら取る */
+  for (let i = 0; i < STARS.length; i++){
+    const s = STARS[i];
+    if (s.taken) continue;
+    if (x < s.x + STAR_SIZE && x + CHARA_W > s.x && y < s.y + STAR_SIZE && y + 92 > s.y){
+      s.taken = true; starCount++;
+      starEls[i].style.display = "none";
+      spawnParticles(s.x + STAR_SIZE / 2, s.y + 10, "spark");
+    }
+  }
   /* HUD：最高の高さ（跳び上がった足元からの高さ）と、距離で決まるポイント */
   if (grounded) baseY = y;
   else maxJumpM = Math.max(maxJumpM, (y - baseY) / PX_PER_M);
-  const score = Math.floor(distPx / PX_PER_M) * 10;
+  const score = Math.floor(distPx / PX_PER_M) * 10 + starCount * 100;
   const hTxt = maxJumpM.toFixed(1) + "m";
   const sTxt = score.toLocaleString("ja-JP");
   if (hTxt !== hudHeight.textContent) hudHeight.textContent = hTxt;
@@ -406,7 +489,7 @@ setDemo(true);
 
 addEventListener("keydown", e => {
   if (["ArrowLeft","ArrowRight","KeyA","KeyD"].includes(e.code) && demo) setDemo(false); // 矢印キーで手動に切替
-  if (e.code === "Space"){ nextLine(); if (!demo && grounded) vy = P.jump; e.preventDefault(); }
+  if (e.code === "Space"){ nextLine(); if (!demo && grounded){ vy = P.jump; spawnParticles(x + CHARA_W / 2, y, "spark"); } e.preventDefault(); }
   if (e.code === "Escape") document.getElementById("codeview").classList.remove("open");
   keys[e.code] = true;
 });
