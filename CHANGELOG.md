@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.2.2] - 2026-11-23
+
+### English
+- Terminology unified for the student audience: the word コード is no longer used in student-facing text; everything is explained as プログラム (the view button and the code-view note included).
+
+### 日本語
+- 生徒向けの用語を統一：「コード」という言い方を生徒に見える文言から無くし、「プログラム」で説明するようにした（「中身を見る（プログラム）」ボタン、プログラム表示の注記）。
+
 ## [0.2.1] - 2026-11-23
 
 ### English
