@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.2.1] - 2026-11-23
+
+### English
+- Wording pass for the student audience: UI labels, presets, the panel notes and the opening dialogue now use kanji for words first-year junior high students have learned (職業講話, 重力, 強さ, 速さ, 中身, 命令, 魔法 etc.) instead of spelling everything out in hiragana, so the text does not talk down to them.
+
+### 日本語
+- 生徒向けの表記見直し：パネルのラベル、プリセット、注記、オープニングの会話文について、中学1年生が習っている漢字は漢字で書くようにした（職業講話、重力、強さ、速さ、中身、命令、魔法など）。ひらがなばかりにせず、生徒を子ども扱いしない表記に。
+
 ## [0.2.0] - 2026-11-20
 
 ### English

@@ -148,7 +148,7 @@
     <div id="block-strip"></div>
     <div id="sign">
       <div class="school" id="school-name">○○中学校</div>
-      <div class="sub">しょくぎょう こうわ へ ようこそ！</div>
+      <div class="sub">職業講話へ ようこそ！</div>
     </div>
     <div id="stage">
       <div id="farbg"></div>
@@ -166,8 +166,8 @@
     <!-- コード表示：左に本物のJavaScript、右に解説 -->
     <section id="codeview" aria-label="コード表示">
       <div class="cv-head">
-        <div class="cv-title">👀 なかみを みる ― キャラの うごきの プログラム</div>
-        <button id="close-code">✖ もどる</button>
+        <div class="cv-title">👀 中身を見る ― キャラの動きのプログラム</div>
+        <button id="close-code">✖ 戻る</button>
       </div>
       <div class="cv-body">
         <pre class="cv-code"><span class="cm">// キャラの動きを決めるプログラム（本物と同じ仕組み）</span>
@@ -200,45 +200,45 @@
 }</pre>
         <div class="cv-notes">
           <div class="cv-note" id="n-rule"><b>ルールは数字</b><br>いちばん上の3つの数字が、このゲームの「ルール」です。右のパネルで変えているのは、まさにこの数字。数字を変えると、動きがその場で変わります。</div>
-          <div class="cv-note" id="n-gravity"><b>① 重力</b><br>1フレームごとに、落ちる速さが gravity のぶん増えます。だから落ち始めはゆっくり、だんだん速くなります。数字を大きくすると「おもーい」落ち方に、小さくすると月面みたいにふわりと落ちます。</div>
+          <div class="cv-note" id="n-gravity"><b>① 重力</b><br>1フレームごとに、落ちる速さが gravity のぶん増えます。だから落ち始めはゆっくり、だんだん速くなります。数字を大きくすると「重ーい」落ち方に、小さくすると月面みたいにふわりと落ちます。</div>
           <div class="cv-note" id="n-floor"><b>② 止まる判定</b><br>地面やブロックの高さまで来たら、そこで止まります。この判定があるから、ブロックの上に乗ったり、段差をおりたりできます。</div>
           <div class="cv-note" id="n-jump"><b>③ ジャンプ</b><br>地面に足がついているときだけ、jumpPower の勢いをもらって跳び上がります。空中では跳べません。</div>
           <div class="cv-note" id="n-speed"><b>④ 歩く</b><br>1フレームに walkSpeed のぶんだけ、向いている方向へ進みます。数字が大きいほど速く歩きます。</div>
         </div>
       </div>
-      <p class="cv-foot">コードは見せるだけ（読み取り専用）。右のパネルで すうじを かえると、コードの すうじも その場で かわって、光ります。</p>
+      <p class="cv-foot">コードは見せるだけ（読み取り専用）。右のパネルで数字を変えると、コードの数字もその場で変わって、光ります。</p>
     </section>
   </main>
 
   <aside id="panel">
-    <h2>⚙️ うごきの せってい</h2>
-    <p class="note">すうじを かえると、キャラの うごきが すぐに かわるよ。これが「プログラムを かえる」ということ。</p>
+    <h2>⚙️ 動きの設定</h2>
+    <p class="note">数字を変えると、キャラの動きがすぐに変わるよ。これが「プログラムを変える」ということ。</p>
 
     <button id="toggle-demo" style="width:100%; margin-bottom:16px;">🤖 デモモード：ON</button>
 
     <div class="ctl">
-      <label>じゅうりょく <output id="o-gravity">0.6</output></label>
+      <label>重力 <output id="o-gravity">0.6</output></label>
       <input type="range" id="i-gravity" min="0.1" max="2" step="0.1" value="0.6">
     </div>
     <div class="ctl">
-      <label>ジャンプの つよさ <output id="o-jump">12</output></label>
+      <label>ジャンプの強さ <output id="o-jump">12</output></label>
       <input type="range" id="i-jump" min="4" max="26" step="1" value="12">
     </div>
     <div class="ctl">
-      <label>あるく はやさ <output id="o-speed">3</output></label>
+      <label>歩く速さ <output id="o-speed">3</output></label>
       <input type="range" id="i-speed" min="1" max="9" step="1" value="3">
     </div>
 
     <div class="presets">
-      <button data-preset="normal">ふつう</button>
-      <button data-preset="moon">🌙 つきの上</button>
+      <button data-preset="normal">普通</button>
+      <button data-preset="moon">🌙 月の上</button>
       <button data-preset="super">🚀 スーパージャンプ</button>
-      <button data-preset="heavy">🪨 おもーい</button>
+      <button data-preset="heavy">🪨 重ーい</button>
     </div>
 
-    <button id="toggle-code" style="width:100%;">👀 なかみを みる（コード）</button>
+    <button id="toggle-code" style="width:100%;">👀 中身を見る（コード）</button>
 
-    <p class="keys">⌨️ そうさ<br>🤖 デモモード中は、キャラが じどうで あるいて ジャンプするよ<br>← → ：自分で あるく（デモは とまる）／ スペース：ジャンプ（会話も すすむ）</p>
+    <p class="keys">⌨️ 操作<br>🤖 デモモード中は、キャラが自動で歩いてジャンプするよ<br>← → ：自分で歩く（デモは止まる）／ スペース：ジャンプ（会話も進む）</p>
   </aside>
 </div>
 
@@ -255,9 +255,9 @@ const CONFIG = {
 
 const LINES = [
   "こんにちは！ " + CONFIG.speakerJob + "の さたけ です。",
-  "きょうは、みんなが だいすきな ゲームの「なかみ」の おはなしを します。",
-  "ゲームは まほうじゃなくて、だれかが かいた「めいれい」で うごいています。",
-  "ためしに、みぎの パネルで すうじを かえてみて。キャラの うごきが かわるよ！"
+  "今日は、みんなが大好きなゲームの「中身」の話をします。",
+  "ゲームは魔法じゃなくて、誰かが書いた「命令」で動いています。",
+  "試しに、右のパネルで数字を変えてみて。キャラの動きが変わるよ！"
 ];
 
 /* ===== 会話（タイプライタ） ===== */
