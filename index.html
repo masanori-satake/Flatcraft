@@ -109,8 +109,17 @@
   }
   .cv-code .kw{color:#7fd6a4;}
   .cv-code .cm{color:rgba(232,228,210,.48);}
-  .cv-code .num{color:var(--accent); font-weight:bold; padding:0 2px; border-radius:3px;}
-  .cv-code .hl, .cv-note.hl{background:rgba(255,217,74,.30);}
+  .cv-code .num{display:inline-block; color:var(--accent); font-weight:bold; padding:0 2px; border-radius:3px;}
+  .cv-code .hl{
+    background:#ffcf3f; color:#141414; font-size:1.3em; padding:0 7px; border-radius:4px;
+    box-shadow:0 0 0 2px #ffcf3f, 0 0 16px rgba(255,207,63,.85);
+  }
+  .cv-code .hl.pulse{animation:cvPulse .55s ease-in-out 3;}
+  @keyframes cvPulse{0%,100%{transform:scale(1);}50%{transform:scale(1.35);}}
+  .cv-note.hl{
+    background:rgba(255,207,63,.20); border-left-color:#ffcf3f;
+    box-shadow:0 0 0 2px rgba(255,207,63,.65);
+  }
   .cv-notes{flex:1; display:flex; flex-direction:column; gap:12px; overflow:auto; padding-right:2px;}
   .cv-note{
     border-left:5px solid #46543f; border-radius:0 6px 6px 0;
@@ -385,8 +394,10 @@ function bind(key, inputId, outId, codeId, noteId, fmt){
     out.textContent = fmt(P[key]);
     code.textContent = fmt(P[key]);
     if (flash){
-      document.querySelectorAll(".hl").forEach(el => el.classList.remove("hl"));
+      document.querySelectorAll(".hl").forEach(el => el.classList.remove("hl", "pulse"));
       code.classList.add("hl"); note.classList.add("hl");
+      void code.offsetWidth; /* アニメーションを最初から再生させる */
+      code.classList.add("pulse");
     }
   };
   input.addEventListener("input", () => apply(true));

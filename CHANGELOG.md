@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.2.3] - 2026-11-23
+
+### English
+- Made the focused spot in the program view much easier to spot: the changed number now gets a solid yellow background with dark text at 1.3x size plus a glow ring, and pulses (grows and shrinks three times) the moment it changes; the matching explanation card is outlined as well. The old highlight was a faint 30%-opacity wash that was hard to see.
+
+### 日本語
+- 「中身を見る（プログラム）」で、フォーカス箇所が分かりにくかった問題を改善：変更した数字は黄色ベタ背景＋黒文字＋1.3倍＋光る輪郭になり、変わった瞬間に3回脈打つ（拡大・縮小）。対応する解説カードにも輪郭を付けた。従来は30%の薄い黄色で見分けにくかった。
+
 ## [0.2.2] - 2026-11-23
 
 ### English
