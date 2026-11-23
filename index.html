@@ -50,6 +50,17 @@
   #sign .school{font-size:clamp(28px,4.2vw,52px); letter-spacing:.06em; text-shadow:3px 3px 0 rgba(0,0,0,.35);}
   #sign .sub{font-size:clamp(15px,1.8vw,22px); margin-top:6px; color:var(--accent);}
 
+  /* ゲームHUD（左上：最高の高さ／右上：ポイント） */
+  #hud{
+    position:absolute; top:42px; left:16px; right:16px; z-index:6;
+    display:flex; justify-content:space-between; pointer-events:none;
+  }
+  .hud-chip{
+    background:rgba(12,18,14,.80); border:2px solid rgba(244,241,228,.55); border-radius:6px;
+    padding:6px 14px; font-size:17px; color:var(--chalk); white-space:nowrap;
+  }
+  .hud-chip b{color:var(--accent); font-size:20px; margin-left:4px;}
+
   /* ステージ（キャラが歩く場所＝横スクロールの窓） */
   #stage{position:absolute; left:0; right:0; bottom:118px; height:250px;}
   /* 遠景（チョークの山と雲。パララックスでゆっくり流れる） */
@@ -158,6 +169,10 @@
     <div id="sign">
       <div class="school" id="school-name">○○中学校</div>
       <div class="sub">職業講話へ ようこそ！</div>
+    </div>
+    <div id="hud">
+      <div class="hud-chip">🏆 最高の高さ<b id="hud-height">0.0m</b></div>
+      <div class="hud-chip">⭐ ポイント<b id="hud-score">0</b></div>
     </div>
     <div id="stage">
       <div id="farbg"></div>
@@ -330,12 +345,18 @@ function floorAt(x){
 const P = { gravity: 0.6, jump: 12, speed: 3 };
 let x = 60, y = 0, vy = 0;         // y は床からの高さ
 let grounded = true;
+const PX_PER_M = 40;               // HUD換算：40px = 1m
+let baseY = 0, maxJumpM = 0;       // ジャンプの足元の高さ／最高の高さ(m)
+const hudHeight = document.getElementById("hud-height");
+const hudScore = document.getElementById("hud-score");
 let demo = true;                   // 自動デモ：読み込み時は ON
 let dir = 1, stuck = 0;            // デモの進行方向と、障害物で止まったフレーム数
 const keys = {};
+let distPx = 0;                 // 進んだ距離の合計（px）
 function tryMove(dx){
   const nx = Math.max(0, Math.min(WORLD_W - CHARA_W, x + dx));
   if (floorAt(nx) > y + 0.01) return false;  // 行く先の床が今より高い＝壁
+  distPx += Math.abs(nx - x);
   x = nx; return true;
 }
 function frame(){
@@ -354,6 +375,14 @@ function frame(){
   vy -= P.gravity; y += vy;
   const f = floorAt(x);
   if (y <= f){ y = f; vy = 0; grounded = true; } else grounded = false;
+  /* HUD：最高の高さ（跳び上がった足元からの高さ）と、距離で決まるポイント */
+  if (grounded) baseY = y;
+  else maxJumpM = Math.max(maxJumpM, (y - baseY) / PX_PER_M);
+  const score = Math.floor(distPx / PX_PER_M) * 10;
+  const hTxt = maxJumpM.toFixed(1) + "m";
+  const sTxt = score.toLocaleString("ja-JP");
+  if (hTxt !== hudHeight.textContent) hudHeight.textContent = hTxt;
+  if (sTxt !== hudScore.textContent) hudScore.textContent = sTxt;
   /* カメラ：キャラを追ってワールドをずらす。遠景は 0.35 倍速（パララックス） */
   const stageW = stage.clientWidth;
   let cam = 0;

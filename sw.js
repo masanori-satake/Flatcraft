@@ -1,7 +1,7 @@
 "use strict";
 /* Flatcraft service worker: 当日オフラインでも動くように主要ファイルをキャッシュする。
    バージョンを上げたら CACHE の名前も上げること（古い版が残る事故防止）。 */
-const CACHE = "flatcraft-v0.2.4";
+const CACHE = "flatcraft-v0.3.0";
 const FILES = ["./", "./index.html", "./manifest.webmanifest", "./assets/icon.svg", "./assets/mii.svg"];
 
 self.addEventListener("install", (e) => {

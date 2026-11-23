@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.3.0] - 2026-11-23
+
+### English
+- Game HUD: top-left shows the highest jump height (metres above the take-off floor, 40px = 1m) and top-right shows points earned from distance travelled (10 points per metre). Both keep growing while the demo runs, adding game feel to the opening.
+
+### 日本語
+- ゲームHUDを追加：左上に「最高の高さ」（跳び上がった足元からの高さ。40px=1m換算）、右上に「ポイント」（進んだ距離で決定。1m=10ポイント）を表示。デモ中も増え続けるので、オープニングにゲーム感が出る。
+
 ## [0.2.4] - 2026-11-23
 
 ### English
