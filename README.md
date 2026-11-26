@@ -8,9 +8,9 @@
 
 ## 表示サンプル
 
-![Flatcraftの表示サンプル：学校名の看板、ドット絵キャラと会話窓、右側の常設パネル](docs/images/board-sample.png)
+![Flatcraftの表示サンプル：看板、ドット絵キャラと会話窓、右側の常設パネル](docs/images/board-sample.png)
 
-（学校名は仮置きの「○○中学校」。実際の画面を Chromium で撮影したもの）
+（看板に学校名は出ない設計。実際の画面を Chromium で撮影したもの）
 
 ## 動かし方（当日はワンクリック）
 
@@ -21,12 +21,11 @@
 
 ## 当日設定
 
-学校名・話者は `index.html` 先頭の `CONFIG` の1箇所だけを変更する。
+話者は `index.html` 先頭の `CONFIG` の1箇所だけを変更する。学校名は看板にも台詞にも出さない設計なので、どの学校でも変更なしで使える。
 
 ```js
 const CONFIG = {
-  schoolName: "○○中学校",   // ← 正式な学校名に差し替える
-  speakerName: "さたけ",
+  speakerName: "佐竹",
   speakerJob: "ソフトウェアエンジニア"
 };
 ```

@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.5.0] - 2026-11-26
+
+### English
+- Removed the school name from the blackboard sign. The sign now reads "職業講話へ ようこそ！" only, so the same page works at any school from the start — including when students open the GitHub Pages version on their own Chromebooks. The local/online copies no longer differ.
+
+### 日本語
+- 黒板の看板から学校名を無くしました。看板は「職業講話へ ようこそ！」だけになり、どの学校でも最初からそのまま通用します。生徒が自分のChromebookでGitHub Pages版を開く場合も含め、ローカル版と公開版で内容が変わらなくなりました。
+
 ## [0.4.2] - 2026-11-23
 
 ### Changed
